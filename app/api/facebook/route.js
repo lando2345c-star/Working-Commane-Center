@@ -2,22 +2,27 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request) {
   try {
-    const { searchParams } = new URL(request.url);
-    const pageId = searchParams.get('pageId');
-    const token = searchParams.get('token');
+    const url = new URL(request.url);
+    const pageId = url.searchParams.get('pageId');
+    const token = url.searchParams.get('token');
 
     if (!pageId || !token) {
       return NextResponse.json({ error: 'Missing params' }, { status: 400 });
     }
 
-    const pageResp = await fetch(
-      `https://graph.facebook.com/v19.0/${pageId}?fields=id,name,fan_count&access_token=${token}`
-    );
+    const pageUrl = new URL(`https://graph.facebook.com/v19.0/${pageId}`);
+    pageUrl.searchParams.set('fields', 'id,name,fan_count');
+    pageUrl.searchParams.set('access_token', token);
+
+    const pageResp = await fetch(pageUrl.toString());
     const pageData = await pageResp.json();
 
-    const insightsResp = await fetch(
-      `https://graph.facebook.com/v19.0/${pageId}/insights?metric=page_views_total,page_fan_adds_unique&period=day&access_token=${token}`
-    );
+    const insightsUrl = new URL(`https://graph.facebook.com/v19.0/${pageId}/insights`);
+    insightsUrl.searchParams.set('metric', 'page_views_total,page_fan_adds_unique');
+    insightsUrl.searchParams.set('period', 'day');
+    insightsUrl.searchParams.set('access_token', token);
+
+    const insightsResp = await fetch(insightsUrl.toString());
     const insightsData = await insightsResp.json();
 
     return NextResponse.json({ page: pageData, insights: insightsData });
