@@ -114,7 +114,7 @@ function FBConnect({ onConnect, onSkip }) {
   const handleConnect = () => {
     if (!token.trim()) { setError("Please paste your access token first."); return; }
     if (!token.trim().startsWith("EAA")) { setError("Token should start with EAA..."); return; }
-    onConnect({ id: "102907851890377", token: token.trim(), name: "Thumb Forecast", followers: 13515 });
+    onConnect({ id: "102907851890377", token: token.trim(), name: "Thumb Forecast", followers: 0 });
   };
   return (
     <div style={{ minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, fontFamily: "'Sora','DM Sans',sans-serif", color: "#EEF0F5" }}>
@@ -1193,7 +1193,7 @@ export default function App() {
               {[{ label: "Reach", v: d.facebook.reach, g: d.facebook.reachGoal, color: C.blue, key: "facebook.reach", live: !!fbCreds },
                 { label: "Impressions", v: d.facebook.pageViews || 0, g: 500000, color: C.purple, key: null, live: !!fbCreds },
                 { label: "New Followers", v: d.facebook.newFollowers || 0, g: 50, color: C.gold, key: null, live: !!fbCreds },
-                { label: "Followers", v: fbCreds?.followers || 13515, g: 20000, color: C.green, key: null, live: !!fbCreds }].map(({ label, v, g, color, key, sfx = "", live }) => (
+                { label: "Followers", v: fbCreds?.followers || 0, g: 20000, color: C.green, key: null, live: !!fbCreds }].map(({ label, v, g, color, key, sfx = "", live }) => (
                 <Card key={label} onClick={key ? () => openLog(key, v) : null}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
                     <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }}>{label}</div>
