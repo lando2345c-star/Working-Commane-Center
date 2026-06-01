@@ -16,7 +16,7 @@ export async function GET(request) {
     const pageData = await pageResp.json();
 
     // Get insights separately
-    const insightsUrl = `https://graph.facebook.com/v19.0/${pageId}/insights?metric=page_impressions,page_impressions_unique&period=day&access_token=${token}`;
+    const insightsUrl = const insightsUrl = `https://graph.facebook.com/v19.0/${pageId}/insights?metric=page_impressions,page_views_total&period=week&access_token=${token}`;
     const insightsResp = await fetch(insightsUrl);
     const insightsData = await insightsResp.json();
 
