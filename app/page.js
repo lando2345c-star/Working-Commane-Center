@@ -1191,8 +1191,8 @@ export default function App() {
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {[{ label: "Reach", v: d.facebook.reach, g: d.facebook.reachGoal, color: C.blue, key: "facebook.reach", live: !!fbCreds },
-                { label: "Impressions", v: d.facebook.pageViews || 0, g: 500000, color: C.purple, key: null, live: !!fbCreds },
-                { label: "New Followers", v: d.facebook.newFollowers || 0, g: 50, color: C.gold, key: null, live: !!fbCreds },
+                { label: "Talking About", v: d.facebook.pageViews || 0, g: 500, color: C.purple, key: null, live: !!fbCreds },
+                { label: "Posts Today", v: d.facebook.posts || 0, g: d.facebook.postsGoal || 5, color: C.gold, key: "facebook.posts", live: !!fbCreds },
                 { label: "Followers", v: fbCreds?.followers || 13514, g: 20000, color: C.green, key: null, live: !!fbCreds }].map(({ label, v, g, color, key, sfx = "", live }) => (
                 <Card key={label} onClick={key ? () => openLog(key, v) : null}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
