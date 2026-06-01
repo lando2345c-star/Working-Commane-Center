@@ -531,21 +531,16 @@ export default function App() {
       try {
         const r = await fetch(`/api/facebook?pageId=${fbCreds.id}&token=${fbCreds.token}`);
         const json = await r.json();
-
-        if (json.data) {
-          const imp  = json.data.find(m => m.name === "page_impressions_unique");
-          const views = json.data.find(m => m.name === "page_impressions");
-          const newFans = json.data.find(m => m.name === "page_fan_adds");
-          const fans = json.data.find(m => m.name === "page_fans");
-          const reach = imp?.values?.slice(-1)[0]?.value || 0;
-          const pageViews = views?.values?.slice(-1)[0]?.value || 0;
-          const newFollowers = newFans?.values?.slice(-1)[0]?.value || 0;
-            // Build 6 day history from API values
-          const rawHist = imp?.values || [];
-          const hist = rawHist.length >= 2
-            ? rawHist.slice(-6).map(v => v.value || 0)
-            : null;
-          setD(prev => ({ ...prev, facebook: { ...prev.facebook, reach, pageViews, newFollowers, history: hist && hist.length >= 2 ? hist : prev.facebook.history } }));
+        if (json.fan_count) {
+          const followers = json.fan_count || 0;
+          const talkingAbout = json.talking_about_count || 0;
+          const postsToday = (json.posts?.data || []).filter(p =>
+            new Date(p.created_time).toDateString() === new Date().toDateString()
+          ).length;
+          setFbCreds(prev => ({ ...prev, followers, name: json.name || prev.name }));
+          setD(prev => ({ ...prev, facebook: { ...prev.facebook,
+            reach: talkingAbout, pageViews: talkingAbout, posts: postsToday
+          }}));
         }
       } catch (e) { console.log("FB error", e); }
       setFbLoading(false);
