@@ -16,7 +16,7 @@ export async function GET(request) {
     const pageData = await pageResp.json();
 
     // Get insights separately
-    const insightsUrl = const insightsUrl = `https://graph.facebook.com/v19.0/${pageId}/insights?metric=page_impressions,page_views_total&period=week&access_token=${token}`;
+    const insightsUrl = {"page":{"id":"102907851890377","name":"Thumb Forecast","fan_count":13514,"followers_count":13514},"insights":{"error":{"message":"(#100) The value must be a valid insights metric","type":"OAuthException","code":100,"fbtrace_id":"A0UMb1SEdokyZeVkCvoRBlV"}}}
     const insightsResp = await fetch(insightsUrl);
     const insightsData = await insightsResp.json();
 
