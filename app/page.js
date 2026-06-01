@@ -529,7 +529,7 @@ export default function App() {
     const fetchFB = async () => {
       setFbLoading(true);
       try {
-        const r = await fetch(`/api/facebook?pageId=${fbCreds.id}&token=${fbCreds.token}`);
+        const r = await fetch(`/api/facebook?pageId=${encodeURIComponent(fbCreds.id)}&token=${encodeURIComponent(fbCreds.token)}`);
         const json = await r.json();
         if (json.fan_count) {
           const followers = json.fan_count || 0;
