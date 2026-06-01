@@ -10,10 +10,17 @@ export async function GET(request) {
   }
 
   try {
-    const url = `https://graph.facebook.com/v19.0/${pageId}/insights?metric=page_impressions_unique,page_impressions,page_fan_adds,page_fans&period=day&access_token=${token}`;
-    const resp = await fetch(url);
-    const data = await resp.json();
-    return NextResponse.json(data);
+    // Get page basic info + fan count
+    const pageUrl = `https://graph.facebook.com/v19.0/${pageId}?fields=id,name,fan_count,followers_count&access_token=${token}`;
+    const pageResp = await fetch(pageUrl);
+    const pageData = await pageResp.json();
+
+    // Get insights separately
+    const insightsUrl = `https://graph.facebook.com/v19.0/${pageId}/insights?metric=page_impressions,page_impressions_unique&period=day&access_token=${token}`;
+    const insightsResp = await fetch(insightsUrl);
+    const insightsData = await insightsResp.json();
+
+    return NextResponse.json({ page: pageData, insights: insightsData });
   } catch (e) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
